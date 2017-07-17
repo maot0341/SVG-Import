@@ -1,0 +1,4 @@
+*.dll
+*Kopie*
+SVG-Loader/obj/
+SVG-Loader/bin/
