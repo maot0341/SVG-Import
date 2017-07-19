@@ -1,13 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows.Forms;
-using System.Drawing;
-
 using CamBam;
 using CamBam.UI;
-using CamBam.Util;
-using CamBam.CAD;
 
 namespace SVGLoader
 {

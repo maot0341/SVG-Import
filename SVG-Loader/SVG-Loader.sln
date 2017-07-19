@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SVG-Loader", "SVG-Loader.csproj", "{7BBAE9B7-4CC6-4592-A5C5-599E1DE27ED9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{25151D68-B735-4DEA-8686-3F298EA9C13A}"
+	ProjectSection(SolutionItems) = preProject
+		graphics.cs = graphics.cs
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "main", "..\main\main.csproj", "{605C3C87-642E-4B48-8BA9-46967FC1BFED}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{605C3C87-642E-4B48-8BA9-46967FC1BFED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{605C3C87-642E-4B48-8BA9-46967FC1BFED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{605C3C87-642E-4B48-8BA9-46967FC1BFED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{605C3C87-642E-4B48-8BA9-46967FC1BFED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7BBAE9B7-4CC6-4592-A5C5-599E1DE27ED9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7BBAE9B7-4CC6-4592-A5C5-599E1DE27ED9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7BBAE9B7-4CC6-4592-A5C5-599E1DE27ED9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7BBAE9B7-4CC6-4592-A5C5-599E1DE27ED9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+	EndGlobalSection
+EndGlobal

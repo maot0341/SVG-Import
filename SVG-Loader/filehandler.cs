@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Xml;
 using System.Collections;
-using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
+using System.Runtime.InteropServices;
 using CamBam.Geom;
 using CamBam.CAD;
 using CamBam.UI;
@@ -11,8 +11,13 @@ namespace SVGLoader
 {
 	public class Handler : CamBam.CAD.CADFileIO 
 	{
+		Adaptor _output;
 
-		protected Point2F _cursor;
+		public Handler()
+		{
+			_output = new Adaptor (Plugin._ui);
+		}
+
 		//-------------------------------------------------------------------
 		public override string FileFilter 
 		{
@@ -28,42 +33,24 @@ namespace SVGLoader
 			XmlDocument xml = new XmlDocument(); 
 			xml.Load(path);
 			//ThisApplication.AddLogMessage(0, "SVG [{0}] loaded".Format(path));
-			trace (0, "SVG loaded:" + path);
+			trace ("SVG loaded:" + path);
 			XmlElement xml_root = xml.DocumentElement;
-			ReadXML(xml_root);
+			//ReadXML(xml_root);
+			Graphics graphics = new Graphics (_output);
+			graphics.draw (xml_root);
 			return true;
 		}
 		//-------------------------------------------------------------------
-		static void trace(Int16 level, String msg)
+		static void trace(string format, params object[] args)
 		{
-			CamBam.ThisApplication.AddLogMessage(level, msg);
+			CamBam.ThisApplication.AddLogMessage(4, string.Format(format, args));
 		}
 		//-------------------------------------------------------------------
-		static void InsertEntity (Entity elem, string id) 
+		void InsertEntity (Entity elem, string id) 
 		{
-			elem.Tag = id;
-			Plugin._ui.InsertEntity(elem);
-		}
-		//-------------------------------------------------------------------
-		string SVGNormPath(string str) {
-			string result = "";
-			foreach (Char c in str.ToCharArray())
-				result += (Char.IsWhiteSpace(c) ? ' ' : c);
-			return result;
-		}
-		//-------------------------------------------------------------------
-		ArrayList Numbers(string str) 
-		{
-			ArrayList result = new ArrayList();
-			Regex re = new Regex("([+-]?\\d*[.]?\\d+)");
-			for (Match match=re.Match(str); match.Success; match = match.NextMatch())
-			{
-				if (match.Value.Length<1)
-					continue;
-				Double val = Convert.ToDouble(match.Value);
-				result.Add(val);
-			}
-			return result;
+			_output.draw (elem, id);
+			//elem.Tag = id;
+			//Plugin._ui.InsertEntity(elem);
 		}
 		//-------------------------------------------------------------------
 		static string XmlAttr(XmlNode xml, string name, string value) 
@@ -86,6 +73,27 @@ namespace SVGLoader
 			return Convert.ToInt32(n.Value);
 		}
 		//-------------------------------------------------------------------
+		string normalize(string str) {
+			string result = "";
+			foreach (char c in str.ToCharArray())
+				result += (char.IsWhiteSpace(c) ? ' ' : c);
+			return result;
+		}
+		//-------------------------------------------------------------------
+		ArrayList numbers(string str) 
+		{
+			ArrayList result = new ArrayList();
+			Regex re = new Regex("([+-]?\\d*[.]?\\d+)");
+			for (Match match=re.Match(str); match.Success; match = match.NextMatch())
+			{
+				if (match.Value.Length<1)
+					continue;
+				Double val = Convert.ToDouble(match.Value);
+				result.Add(val);
+			}
+			return result;
+		}
+		//-------------------------------------------------------------------
 		void ReadXML(XmlNode xml_root) 
 		{
 			string name = xml_root.Name.ToLower();
@@ -96,10 +104,10 @@ namespace SVGLoader
 				if (!CamBamUI.MainUI.ActiveView.CADFile.Layers.ContainsKey(id))
 				{
 					CamBamUI.MainUI.ActiveView.CADFile.CreateLayer(id);
-					trace(0, string.Format(">>layer created: {0}", id));
+					trace(">> layer created: {0}", id);
 				}
 				CamBamUI.MainUI.ActiveView.CADFile.SetActiveLayer(id);
-				trace(0, ">>g = group");
+				trace(">>g = group");
 			}
 			else if (name == "line") 
 			{
@@ -107,8 +115,8 @@ namespace SVGLoader
 				int y1 = XmlAttr(xml_root, "y1", 0);
 				int x2 = XmlAttr(xml_root, "x2", 0);
 				int y2 = XmlAttr(xml_root, "y2", 0);
-				trace(0, string.Format(">> line: a=[{0} {1}] b=[{2},{3}]", x1, y1, x2, y2));
-				//trace(0, ">> line: a=[{0} {1}] b=[{2},{3}].".Format(x1, y1, x2, y2));
+				trace(">> line: a=[{0} {1}] b=[{2},{3}]", x1, y1, x2, y2);
+				//trace(">> line: a=[{0} {1}] b=[{2},{3}].".Format(x1, y1, x2, y2));
 				elem = new Line(new Point2F(x1, y1), new Point2F(x2, y2));
 				InsertEntity(elem, id);
 			}
@@ -116,7 +124,7 @@ namespace SVGLoader
 				Int32 x = XmlAttr(xml_root, "cx", 0);
 				Int32 y = XmlAttr(xml_root, "cy", 0);
 				Int32 r = XmlAttr(xml_root, "r", 0);
-				trace(0, string.Format(">> circle: x={0} y={1} r={2}", x, y, r));
+				trace(">> circle: x={0} y={1} r={2}", x, y, r);
 				elem = new Circle(new Point2F(x, y), r);
 				InsertEntity(elem, id);
 			}
@@ -130,30 +138,30 @@ namespace SVGLoader
 				Int32 y = XmlAttr(xml_root, "y", 0);
 				Int32 w = XmlAttr(xml_root, "width", 0);
 				Int32 h = XmlAttr(xml_root, "height", 0);
-				trace(0, string.Format(">> rect: w={0} h={1}", w, h));
-				//trace(0, "rect: " + w);
+				trace(">> rect: w={0} h={1}", w, h);
+				//trace("rect: " + w);
 				Point3F point = new Point3F(x, y, 0);
 				elem = new PolyRectangle(point, w, h);
 				InsertEntity(elem, id);
 			}
 			else if (name == "path") 
 			{
-				Regex pm = new Regex("([mMhHvVlLaAqQcC][^mMhHvVlLaAqQcC]+)");
 				string d = XmlAttr(xml_root, "d", "");
-				trace(0, string.Format(">> path: d={0}", d));
-				string path = SVGNormPath(d);
+				trace(">> path: d={0}", d);
+				string path = normalize (d);
+				Regex pm = new Regex("([mMhHvVlLaAqQcC][^mMhHvVlLaAqQcC]+)");
 				for (Match match=pm.Match(path); match.Success; match = match.NextMatch())
 				{
 					if (match.Value.Length==0)
 						continue;
 					string item = match.Value;
-					Char op = item[0];
-					ArrayList pa = Numbers(item);
+					char op = item[0];
+					ArrayList pa = numbers(item);
 				}
 			}
 			else 
 			{
-				trace(0, ">>" + name);
+				trace(">>" + name);
 			}
 
 			//CamBam::ThisApplication::AddLogMessage(0, ">>" + name);
