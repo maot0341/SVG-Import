@@ -1,0 +1,11 @@
+/home/jvater/test-cs/SVG-Loader/main/obj/Debug/.NETFramework,Version=v4.5.AssemblyAttribute.cs
+/home/jvater/test-cs/SVG-Loader/main/bin/Debug/main.pdb
+/home/jvater/test-cs/SVG-Loader/main/bin/Debug/main.exe
+/home/jvater/test-cs/SVG-Loader/main/obj/Debug/main.exe
+/home/jvater/test-cs/SVG-Loader/main/obj/Debug/main.pdb
+/home/jvater/test-cs/SVG-Loader/main/bin/Debug/CamBam.CAD.dll
+/home/jvater/test-cs/SVG-Loader/main/bin/Debug/CamBam.Geom.dll
+/home/jvater/test-cs/SVG-Loader/main/bin/Debug/Microsoft.Scripting.dll
+/home/jvater/test-cs/SVG-Loader/main/bin/Debug/IronPython.dll
+/home/jvater/test-cs/SVG-Loader/main/bin/Debug/OpenTK.dll
+/home/jvater/test-cs/SVG-Loader/main/bin/Debug/Microsoft.Dynamic.dll
