@@ -47,6 +47,12 @@ namespace SVGLoader
 		{
 			string name = xml_root.Name.ToLower ();
 			string id = attribute (xml_root, "id", "");
+			ITransform tr = null;
+			if (id == "kontur")
+				tr = new Scale (-0.1, -0.1, +0.1);
+			else if (id == "heart")
+				tr = new Scale (+0.1, +0.1, +0.1);
+
 			Entity elem;
 			if (name == "g") {
 				_out.layer (id);
@@ -80,7 +86,7 @@ namespace SVGLoader
 			} else if (name == "path") {
 				string d = attribute (xml_root, "d", "");
 				//trace (">> path: d={0}", d);
-				_polyline.draw (d, id);
+				_polyline.draw (d, id, tr);
 			} else if (name == "metadata") {
 				trace (">> metadata: skip");
 				return;

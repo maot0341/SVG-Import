@@ -1,12 +1,14 @@
-﻿<Properties StartupItem="SVG-Loader/SVG-Loader.csproj">
+﻿<Properties StartupItem="main/main.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="SVG-Loader/polyline.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="SVG-Loader/graphics.cs">
     <Files>
       <File FileName="SVG-Loader/plugin.cs" Line="1" Column="1" />
       <File FileName="SVG-Loader/filehandler.cs" Line="1" Column="1" />
       <File FileName="SVG-Loader/output.cs" Line="1" Column="1" />
       <File FileName="SVG-Loader/adaptor.cs" Line="1" Column="1" />
       <File FileName="SVG-Loader/polyline.cs" Line="1" Column="1" />
+      <File FileName="main/Program.cs" Line="1" Column="1" />
+      <File FileName="SVG-Loader/graphics.cs" Line="15" Column="3" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

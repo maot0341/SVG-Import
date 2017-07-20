@@ -7,7 +7,7 @@ namespace SVGLoader
 {
 	abstract public class IOutput
 	{
-		abstract public void draw(Entity elem, string id=null);
+		abstract public void draw(Entity elem, string id=null, ITransform tr=null);
 		abstract public void layer(string id=null);
 		abstract public void trace(int level, string format, params object[] args);
 		abstract public double X (double x);

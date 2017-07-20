@@ -3,8 +3,6 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{605C3C87-642E-4B48-8BA9-46967FC1BFED}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>main</RootNamespace>
@@ -33,10 +31,10 @@
     <Reference Include="System" />
     <Reference Include="System.Xml" />
     <Reference Include="CamBam.CAD">
-      <HintPath>..\..\..\CamBam0.9.8\CamBam.CAD.dll</HintPath>
+      <HintPath>..\..\..\..\..\opt\CamBam0.9.8\CamBam.CAD.dll</HintPath>
     </Reference>
     <Reference Include="CamBam.Geom">
-      <HintPath>..\..\..\CamBam0.9.8\CamBam.Geom.dll</HintPath>
+      <HintPath>..\..\..\..\..\opt\CamBam0.9.8\CamBam.Geom.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

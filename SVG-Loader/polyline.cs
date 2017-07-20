@@ -14,6 +14,8 @@ namespace SVGLoader
 		protected Point2F _cursor;
 		protected Polyline _poly;
 		protected string _id;
+		protected ITransform _tr;
+
 		static Regex _regex_group;
 		static Regex _regex_param;
 		//-------------------------------------------------------------------
@@ -47,8 +49,8 @@ namespace SVGLoader
 		double[] numbers(string str) 
 		{
 			List<double> result = new List<double>();
-			//Regex re = new Regex("([+-]?\\d*[.]?\\d+)");
-			Regex re = regex_param();
+			Regex re = new Regex("([+-]?\\d*[.]?\\d+)");
+			//Regex re = regex_param();
 			for (Match match=re.Match(str); match.Success; match = match.NextMatch())
 			{
 				if (match.Value.Length<1)
@@ -91,15 +93,17 @@ namespace SVGLoader
 		Point3F cursor()
 		{
 			Point3F p = new Point3F();
-			if (_id == "kontur") {
-				_output.trace (4, "kontour: scale");
-				p.X = - _cursor.X;
-				p.Y = - _cursor.Y;
+			if (_tr == null) {
+				p.X = _cursor.X;
+				p.Y = _cursor.Y;
+				p.Z = 0;
 				return p;
-			}
-			p.X = _cursor.X;
-			p.Y = _cursor.Y;
-			p.Z = 0;
+			}				
+			double[] v = new double[3] { _cursor.X, _cursor.Y, 0 };
+			v = _tr.calc (v);
+			p.X = v [0];
+			p.Y = v [1];
+			p.Z = v [2];
 			return p;
 		}
 		//-------------------------------------------------------------------
@@ -199,20 +203,23 @@ namespace SVGLoader
 				break;
 			case 'z':
 			case 'Z':
-				_cursor.X = _poly.FirstPoint.X;
-				_cursor.Y = _poly.FirstPoint.Y;
-				_poly.Add(cursor());
+				if (_poly.LastPoint != _poly.FirstPoint) {
+					Point3F p = new Point3F (_poly.FirstPoint.X, _poly.FirstPoint.Y, 0);
+					_poly.Add (p);
+				}
 				_poly.Closed = true;
 				trace ("path Z: "+ op);
 				break;
 			}
 		}
 		//-------------------------------------------------------------------
-		public void draw(string str, string id)
+		public void draw(string str, string id=null, ITransform tr=null)
 		{
 			_id = id;
+			_tr = tr;
 			str = normalize (str);
-			Regex re = regex_group();
+			//Regex re = regex_group();
+			Regex re = new Regex ("([a-zA-Z][^a-zA-Z]*)"); 
 			for (Match match=re.Match(str); match.Success; match = match.NextMatch())
 			{
 				if (match.Value.Length==0)

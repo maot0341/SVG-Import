@@ -23,7 +23,7 @@ namespace SVGLoader
 			return 0;
 		}
 
-		public override void draw(Entity elem, string id=null)
+		public override void draw(Entity elem, string id=null, ITransform tr=null)
 		{
 			elem.Tag = id;
 			_ui.InsertEntity(elem);

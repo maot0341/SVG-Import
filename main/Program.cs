@@ -25,7 +25,7 @@ namespace main
 			return 0;
 		}
 
-		public override void draw(Entity elem, string id=null)
+		public override void draw(Entity elem, string id=null, ITransform tr=null)
 		{
 			if (elem == null) {
 				Console.WriteLine ("<null>");
@@ -46,25 +46,32 @@ namespace main
 		{
 			SVGLoader.Transform t1 = new SVGLoader.Transform (Math.PI);
 			double[] p0 = new double[3] { 1, 2, 3 };
-			double[] p1 = t1.tr (p0);
-			double[] p2 = t1.tr (1,2,3);
+			double[] p1 = t1.calc (p0);
+			double[] p2 = t1.calc (1,2,3);
 			SVGLoader.ITransform t2 = new SVGLoader.Translate (2,2);
 			t1.rotate (0);
 			t1.scale ();
 			t1.scale (-1,1,3);
-			p1 = t2.tr (p0);
+			p1 = t2.calc (p0);
 			Stack<ITransform> t3 = new Stack<ITransform> ();
 			t3.Push (t2);
 			t3.Push (t1);
 			p1 = (double[]) p0.Clone();
 			foreach (ITransform t in t3)
-				p1 = t.tr (p1);
+				p1 = t.calc (p1);
+			MultiTransform t4 = new MultiTransform (t3);
+			p1 = t4.calc (p0);
+			Queue<ITransform> queue = new Queue<ITransform> ();
+			queue.Enqueue (t1);
+			MultiTransform t5 = new MultiTransform (queue);
+			p1 = t5.calc (p0);
 
 
 			Stdout stdout = new Stdout ();
 			SVGLoader.Graphics graphics = new SVGLoader.Graphics (stdout);
 
-			string path = "/home/jvater/test-cs/data/test.svg";
+			//string path = "/home/jvater/test-cs/data/test.svg";
+			string path = "/home/jvater/test-cs/data/Steg.svg";
 			Console.WriteLine ("Hello World!");
 			//CamBam.ThisApplication.MsgBox("SVG: " + path);
 			XmlDocument xml = new XmlDocument(); 
