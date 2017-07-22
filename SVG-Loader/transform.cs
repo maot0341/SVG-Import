@@ -1,4 +1,16 @@
-﻿using System;
+﻿/* ---------------------------------------------------------------------
+ * Transformations
+ * Roration,Translate etc.
+ * 
+ * Ther are to transformation calculation types:
+ * - 'scale' for relative messures like 'with' and 'heigth' 
+ * - 'calc' for points (absolute coordinates)
+ * Beside of common interface methods,
+ * the static methode 'nop(vector)' checks for 'nothig-to-do'
+ * before creating a transformation - for simplcity reasons.
+ * ---------------------------------------------------------------------
+ */
+using System;
 using System.Collections.Generic;
 using CamBam.Geom;
 using CamBam.CAD;
@@ -10,6 +22,7 @@ namespace SVGLoader
 	abstract public class ITransform
 	{
 		abstract public double [] calc (double [] p);
+		abstract public double [] scale (double [] p);
 
 		public double[] calc(double x, double y, double z) 
 		{
@@ -65,6 +78,10 @@ namespace SVGLoader
 			}
 			return p1;
 		}
+		public override double[] scale(double [] p)
+		{
+			return p;
+		}
 	}
 	//-------------------------------------------------------
 	public class Translate : ITransform
@@ -75,6 +92,45 @@ namespace SVGLoader
 		{
 			_vector = new double[] { x, y, z };
 		}
+		public Translate (double[] v)
+		{
+			_vector = new double[3];
+			for (int i=0; i<v.Length; i++)
+				_vector[i] = v[i];
+		}
+		public override double[] calc(double [] p)
+		{
+			p = (double[])p.Clone ();
+			for (int i=0; i<p.Length; i++)
+				p [i] += _vector [i];
+			return p;
+		}
+		public override double[] scale(double [] p)
+		{
+			return p;
+		}
+		public static bool nop(double [] p)
+		{
+			for(int i=0; i<p.Length; i++)
+				if (p[i] != 0) return false;
+			return true;
+		}
+	}
+	//-------------------------------------------------------
+	public class Scale : ITransform
+	{
+		public double [] _vector;
+
+		public Scale (double x=0, double y=0, double z=0)
+		{
+			_vector = new double[] { x, y, z };
+		}
+		public Scale (double [] v)
+		{
+			_vector = new double[3];
+			for (int i=0; i<v.Length; i++)
+				_vector[i] = v[i];
+		}
 		public void set (double x, double y, double z=0)
 		{
 			_vector [0] = x;
@@ -84,10 +140,19 @@ namespace SVGLoader
 		public override double[] calc(double [] p)
 		{
 			p = (double[])p.Clone ();
-			p [0] += _vector [0];
-			p [1] += _vector [1];
-			p [2] += _vector [2];
+			for (int i=0; i < p.Length; i++)
+				p [i] *= _vector [i];
 			return p;
+		}
+		public override double[] scale(double [] p)
+		{
+			return calc(p);
+		}
+		public static bool nop(double [] p)
+		{
+			for(int i=0; i<p.Length; i++)
+				if (p[i]!= 1) return false;
+			return true;
 		}
 	}
 	//-------------------------------------------------------
@@ -110,65 +175,53 @@ namespace SVGLoader
 			p1 [1] /= _scale [1];
 			return p1;
 		}
-	}
-	//-------------------------------------------------------
-	public class Scale : ITransform
-	{
-		public double [] _vector;
-
-		public Scale (double x=0, double y=0, double z=0)
+		public override double[] scale(double [] p)
 		{
-			_vector = new double[] { x, y, z };
+			double[] p1 = (double[])p.Clone ();
+			p1 [0] /= _scale [0];
+			p1 [1] /= _scale [1];
+			return p1;
 		}
-		public void set (double x, double y, double z=0)
+		public static bool nop(double [] v)
 		{
-			_vector [0] = x;
-			_vector [1] = y;
-			_vector [2] = z;
-		}
-		public override double[] calc(double [] p)
-		{
-			p = (double[])p.Clone ();
-			p [0] *= _vector [0];
-			p [1] *= _vector [1];
-			p [2] *= _vector [2];
-			return p;
-		}
-	}
-	//-------------------------------------------------------
-	public class MirrorX : ITransform
-	{
-		public override double[] calc(double [] p)
-		{
-			p = (double[])p.Clone ();
-			p [0] = -p [0];
-			return p;
-		}
-	}
-	//-------------------------------------------------------
-	public class MirrorY : ITransform
-	{
-		public override double[] calc(double [] p)
-		{
-			p = (double[])p.Clone ();
-			p [1] = -p [1];
-			return p;
+			if (v.Length < 4)
+				return true;
+			if (v [0] != 0 || v [1] != 0)
+				return false;
+			if (v [2] == 1 && v [3] == 1)
+				return false;
+			return true;
 		}
 	}
 	//-------------------------------------------------------
 	public class MultiTransform : ITransform
 	{
-		public IEnumerable<ITransform> _items; 
+		public Stack<ITransform> _items; 
 
-		public MultiTransform(IEnumerable<ITransform> items) {
-			_items = items;
+		public MultiTransform() 
+		{
+			_items = new Stack<ITransform> ();
 		}
-		public override double[] calc(double[] p) {
+		public MultiTransform(IEnumerable<ITransform> items) 
+		{
+			_items = new Stack<ITransform> ();
+			foreach(ITransform t in items)
+				_items.Push(t);
+		}
+		public override double[] calc(double[] p) 
+		{
 			foreach (ITransform t in _items)
 				p = t.calc (p);
 			return p;
-			}
+		}
+		public override double[] scale(double[] p) 
+		{
+			foreach (ITransform t in _items)
+				p = t.scale (p);
+			return p;
+		}
 	}
+	//-------------------------------------------------------
 }
 //-------------------------------------------------------
 

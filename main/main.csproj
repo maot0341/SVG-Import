@@ -52,6 +52,12 @@
     <Compile Include="..\SVG-Loader\transform.cs">
       <Link>transform.cs</Link>
     </Compile>
+    <Compile Include="..\SVG-Loader\parser.cs">
+      <Link>parser.cs</Link>
+    </Compile>
+    <Compile Include="..\SVG-Loader\geomety.cs">
+      <Link>geomety.cs</Link>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
