@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   width="210mm"
+   height="297mm"
+   viewBox="-710 -700 2100 2970"
+   id="NH-Steg"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="NH-Steg.svg">
+  <metadata>
+  </metadata>
+  <defs>
+    <style type="text/css">
+    <![CDATA[
+	line {stroke:black;stroke-width:5;}
+	rect {fill:none;stroke:black;stroke-width:5;}
+	circle {fill:none;stroke:black;stroke-width:5;}
+	path {fill:none;stroke:black;stroke-width:1;}
+	.centerline {stroke:black;stroke-width:1;stroke-dasharray:70,30,5,30;visibility:inherit}
+	#ref-img {opacity:0.2;visibility:hidden}
+	#ref-ximg {opacity:0.2;visibility:hidden}
+	#herz-template {visibility:inherit}
+	#kontur-new {stroke:blue;}
+	]]></style>
+<path id="vol" d="m 0,0
+	c -7,+20 -85,+7 -116,+25 
+	-68,+36 -38,+97 +14,+112 
+	+71,+12 +98,-34 +89,-63 
+	-7,-24 -75,-42 -90,15 
+	-39,-37 +26,-62 +58,-56 
+	+24,+1 +40,2 +62,-12"
+	/>
+</defs>
+<!-- image id="ref-img-02" transform="scale(0.69,0.72)"
+	xlink:href="../NH-Ahker-Stege.jpg"
+	x="-1575"
+	y="-1755"
+	width="2976"
+	height="4209"
+	style="opacity:0.2;visibility:inherit"
+	/ -->
+<path id="kontur" transform="scale(-1,-1)"
+	d="
+	M 0,112
+	C 140,110,120,40 85,25
+	L 85,0
+	A 3000,3000,0,0,0,275,-10
+	L 276,15
+	Q 190,50,300,150
+	
+c -5.25 15 -63.75 5.25 -87 18.75
+c -51 27 -28.5 72.75 10.5 84
+c 53.25 9 73.5 -25.5 66.75 -42.25
+c -5.25 -18 -56.25 -31.5 -67.5 	6.25
+c -29.25 -27.75 19.5 -46.5 43.5 -42
+c 18 0.75 30 1.5 46.5 -9
+
+	L 315,171
+	
+	Q 380,250,410,400
+	
+	A 1050,1050,0,0,1,-410,400
+	
+	Q -380,250,-315,171
+	
+c 16.5 10.5 28.5 9.75 46.5 9
+c 24 -4.5 72.75 14.25 43.5 42
+c -11.25 -37.75 -62.25 -24.25 -67.5 -6.25
+c -6.75 16.75 13.5 51.25 66.75 42.25
+c 39 -11.25 61.5 -57 10.5 -84
+c -23.25 -13.5 -81.75 -3.75 -87 -18.75
+
+	Q -190,50,-276,15
+	L -275,-10
+	A 3000,3000,0,0,0,-85,0
+	L -85,25
+	C -120,40,-140,110,0,112
+	" />
+<path id="heart"	   
+d="M 0,-227 
+c 18,-39 104,-34 108,-85 5,-35 -78,-35 -77,-2 0,23 45,19 62,0 -6,31 -65,55 -93,52
+ 
+c -28,3 -87,-21 -93,-52
+c 17,19 62,23 62,0
+c 1,-33 -82,-33 -77,2
+c 4,51 90,46 108,85
+z
+
+"
+
+/>
+<!-- use x="375" y="187" xlink:href="#vol" transform="scale(-0.8,-0.8)"/ -->
+<!-- use x="375" y="187" xlink:href="#vol" transform="scale(+0.8,-0.8)"/ -->
+</svg>

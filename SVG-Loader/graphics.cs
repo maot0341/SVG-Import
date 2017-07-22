@@ -44,14 +44,14 @@ namespace SVGLoader
 			return n.Value;
 		}
 		//-------------------------------------------------------------------
-		static int attribute(XmlNode xml, string name, int value) 
+		static double attribute(XmlNode xml, string name, double value) 
 		{
 			if (xml==null || xml.Attributes==null || xml.Attributes.Count==0)
 				return value;
 			XmlNode n = xml.Attributes.GetNamedItem(name);
 			if (n==null)
 				return value;
-			return Convert.ToInt32(n.Value);
+			return Convert.ToDouble(n.Value);
 		}
 		//-------------------------------------------------------------------
 		public double[] calc(double x, double y) {
@@ -142,10 +142,10 @@ namespace SVGLoader
 				elem = new Circle (new Point2F (cp[0], cp[1]), rr[0]);
 				_output.draw (elem, id);
 			} else if (name == "rect") {
-				int x = attribute (xml_root, "x", 0);
-				int y = attribute (xml_root, "y", 0);
-				int w = attribute (xml_root, "width", 0);
-				int h = attribute (xml_root, "height", 0);
+				double x = attribute (xml_root, "x", 0);
+				double y = attribute (xml_root, "y", 0);
+				double w = attribute (xml_root, "width", 0);
+				double h = attribute (xml_root, "height", 0);
 				trace (">> rect: w={0} h={1}", w, h);
 				//trace("rect: " + w);
 
