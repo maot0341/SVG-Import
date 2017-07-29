@@ -58,6 +58,9 @@
     <Compile Include="..\SVG-Loader\geomety.cs">
       <Link>geomety.cs</Link>
     </Compile>
+    <Compile Include="..\SVG-Loader\bezier.cs">
+      <Link>bezier.cs</Link>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

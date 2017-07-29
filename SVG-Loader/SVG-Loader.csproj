@@ -58,6 +58,7 @@
     <Compile Include="transform.cs" />
     <Compile Include="parser.cs" />
     <Compile Include="geomety.cs" />
+    <Compile Include="bezier.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
