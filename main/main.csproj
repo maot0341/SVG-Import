@@ -31,36 +31,21 @@
     <Reference Include="System" />
     <Reference Include="System.Xml" />
     <Reference Include="CamBam.CAD">
-      <HintPath>..\..\..\..\..\opt\CamBam0.9.8\CamBam.CAD.dll</HintPath>
+      <HintPath>..\..\..\bin\CamBam0.9.8\CamBam.CAD.dll</HintPath>
     </Reference>
     <Reference Include="CamBam.Geom">
-      <HintPath>..\..\..\..\..\opt\CamBam0.9.8\CamBam.Geom.dll</HintPath>
+      <HintPath>..\..\..\bin\CamBam0.9.8\CamBam.Geom.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="..\SVG-Loader\polyline.cs">
-      <Link>polyline.cs</Link>
-    </Compile>
-    <Compile Include="..\SVG-Loader\output.cs">
-      <Link>output.cs</Link>
-    </Compile>
-    <Compile Include="..\SVG-Loader\graphics.cs">
-      <Link>graphics.cs</Link>
-    </Compile>
-    <Compile Include="..\SVG-Loader\transform.cs">
-      <Link>transform.cs</Link>
-    </Compile>
-    <Compile Include="..\SVG-Loader\parser.cs">
-      <Link>parser.cs</Link>
-    </Compile>
-    <Compile Include="..\SVG-Loader\geomety.cs">
-      <Link>geomety.cs</Link>
-    </Compile>
-    <Compile Include="..\SVG-Loader\bezier.cs">
-      <Link>bezier.cs</Link>
-    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\SVG-Loader\plugin.csproj">
+      <Project>{7BBAE9B7-4CC6-4592-A5C5-599E1DE27ED9}</Project>
+      <Name>plugin</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>

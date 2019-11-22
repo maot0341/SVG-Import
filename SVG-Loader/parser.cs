@@ -50,7 +50,7 @@ namespace SVGLoader
 			if (str == null || str == "")
 				return null;
 			if (_re_scale == null)
-				_re_scale = new Regex (@"(translate|scale)\s*\([^a-zA-Z]+\)");
+				_re_scale = new Regex (@"(matrix|translate|scale)\s*\([^a-zA-Z]+\)");
 			//_re_scale = new Regex ("((translate|scale)\\s*\\(.*\\))");
 			MultiTransform tr = new MultiTransform ();
 			str = str.Replace (",", " ");
@@ -64,6 +64,8 @@ namespace SVGLoader
 					tr._items.Push (new Scale (vec));
 				if (item.StartsWith ("translate") && !Translate.nop (vec))
 					tr._items.Push (new Translate (vec));
+				if (item.StartsWith ("matrix"))
+					tr._items.Push (new Transform (vec));
 			}
 			if (tr._items.Count < 1)
 				return null;

@@ -16,6 +16,7 @@ namespace SVGLoader
 	public class Bezier
 	{
 		private double[] _FactorialLookup;
+		public int _NodeNumber = 10;
 
 		//-------------------------------------------------------------------
 		public Bezier ()

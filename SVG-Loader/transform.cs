@@ -36,17 +36,34 @@ namespace SVGLoader
 	public class Transform : ITransform
 	{
 		public double[,] _matrix;
+		public double[] _vector;
 
 		public Transform ()
 		{
+			_vector = null;
 			_matrix = new double [3, 3];
 			_matrix [0, 0] = 1;
 			_matrix [1, 1] = 1;
 			_matrix [2, 2] = 1;
 		}
 
+		public Transform (double[] matrix)
+		{
+			_matrix = new double [3, 3];
+			_matrix [0, 0] = matrix [0];
+			_matrix [0, 1] = matrix [1];
+			_matrix [1, 0] = matrix [2];
+			_matrix [1, 1] = matrix [3];
+			_matrix [2, 2] = 1;
+
+			_vector = new double[3];
+			_vector [0] = matrix [4];
+			_vector [1] = matrix [5];
+		}
+
 		public Transform (double angle)
 		{
+			_vector = null;
 			_matrix = new double [3, 3];
 			rotate (angle);
 		}
@@ -83,6 +100,9 @@ namespace SVGLoader
 					p1 [i] += _matrix [i, j] * p [j];
 				}
 			}
+			if (_vector != null)
+			for (i = 0; i < 3; i++)
+				p1 [i] += _vector [i];
 			return p1;
 		}
 
@@ -220,15 +240,15 @@ namespace SVGLoader
 			return p1;
 		}
 
-		public static bool nop (double[] v)
+		public static bool nop (double[] v, double w, double h)
 		{
 			if (v.Length < 4)
 				return true;
-			if (v [0] != 0 || v [1] != 0)
+			if (v[0] != 0 || v[1] != 0)
 				return false;
-			if (v [2] == 1 && v [3] == 1)
-				return false;
-			return true;
+			if (v[2]/w == 1 && v[3]/h == 1)
+				return true;
+			return false;
 		}
 	}
 	//-------------------------------------------------------

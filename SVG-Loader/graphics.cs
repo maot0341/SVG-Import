@@ -123,6 +123,12 @@ namespace SVGLoader
 
 			// transformation
 			string id = attribute (xml_root, "id", "");
+			draw (xml_root, id);
+		}
+		//-------------------------------------------------------------------
+		void draw (XmlNode xml_root, string id)
+		{
+			string name = xml_root.Name.ToLower ();
 			ITransform tr = null;
 			if (name == "svg") {
 				string w = attribute (xml_root, "width", "");
@@ -131,8 +137,8 @@ namespace SVGLoader
 				double w_mm = Parser.unit_mm (w);
 				double h_mm = Parser.unit_mm (h);
 				double[] vbox = Parser.numbers (box);
-				if (vbox.Length == 4 && !ViewBox.nop (vbox))
-					tr = new Scale (w_mm / vbox [2], h_mm / vbox [3]);
+				if (vbox.Length == 4 && !ViewBox.nop (vbox, w_mm, h_mm))
+					tr = new Scale (+w_mm / vbox [2], -h_mm / vbox [3]);
 				//tr = new ViewBox (vbox [0], vbox [1], vbox [2] / w_mm, vbox [3] / h_mm);
 				_transforms.Push (tr);
 			} else {
@@ -156,7 +162,7 @@ namespace SVGLoader
 				trace ("svg (root element)");
 			} else if (name == "g") {
 				trace ("g = group");
-				_output.layer (id);
+				//_output.layer (id);
 			} else if (name == "line") {
 				double x1 = attribute (xml_root, "x1", 0);
 				double y1 = attribute (xml_root, "y1", 0);
@@ -195,6 +201,8 @@ namespace SVGLoader
 				_output.draw (elem, id);
 			} else if (name == "path") {
 				string d = attribute (xml_root, "d", "");
+				string n = attribute(xml_root, "bezier_nodenumber", "10");
+				_pathparser.setNodeNumber(Int32.Parse (n));
 				//TODO: trace ("path  d={0}", d);
 				_pathparser.draw (d, id);
 			} else if (name == "use") {
@@ -214,7 +222,7 @@ namespace SVGLoader
 					if (!Translate.nop (v))
 						tr = new Translate (x, y);
 					_transforms.Push (tr);
-					draw (xml);
+					draw (xml, id);
 					_transforms.Pop ();
 				}
 			} else {

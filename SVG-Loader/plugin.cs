@@ -27,7 +27,8 @@ namespace SVGLoader
 
 		public override void draw (Entity elem, string id = null)
 		{
-			elem.Tag = id;
+			if (id != null && id.Length > 0)
+				elem.Tag = String.Format("id={0}", id);
 			_ui.InsertEntity (elem);
 		}
 
@@ -85,6 +86,7 @@ namespace SVGLoader
 	//-------------------------------------------------------------------
 	public class Plugin
 	{
+		static string _version = "1.19";
 		public static CamBamUI _ui;
 
 		// This is the main entry point into the plugin.
@@ -94,9 +96,16 @@ namespace SVGLoader
 			_ui = ui;
 
 			// Create a new menu item in the top Plugins menu
-			ToolStripMenuItem mi = new ToolStripMenuItem ();
-			mi.Text = "JV test plugin";
+			ToolStripMenuItem mi = null;
+			/*
+			mi = new ToolStripMenuItem ();
+			mi.Text = "SVG-Loader (About)";
 			mi.Click += new EventHandler (TestPlugin_Click);
+			ui.Menus.mnuPlugins.DropDownItems.Add (mi);
+			*/
+			mi = new ToolStripMenuItem ();
+			mi.Text = "SVG-Loader import...";
+			mi.Click += new EventHandler (OpenSVG_Click);
 			ui.Menus.mnuPlugins.DropDownItems.Add (mi);
 			CamBamUI.CADFileHandlers.Add (new Handler ());
 			//ui.CADFileHandlers.Add(new Handler());
@@ -105,7 +114,25 @@ namespace SVGLoader
 		// Simple menu handler
 		static void TestPlugin_Click (object sender, EventArgs e)
 		{
-			ThisApplication.MsgBox ("Hallo there!");
+			ThisApplication.MsgBox (string.Format ("SVG Loader (c) j.vater 2019 version {0}", _version));
+		}
+
+		static void OpenSVG_Click (object sender, EventArgs e)
+		{
+			string path = string.Empty;
+			string title = string.Format ("SVG Loader version {0}", _version);
+
+			OpenFileDialog dlg = new OpenFileDialog();
+			dlg.Title = title;
+			dlg.Filter = "SVG files (*.svg)|*.svg|All files (*.*)|*.*";
+			if (dlg.ShowDialog () != DialogResult.OK)
+				return;
+			path = dlg.FileName;
+			OutputCAD output = new OutputCAD (Plugin._ui);
+			XmlDocument xml = new XmlDocument (); 
+			xml.Load (path);
+			Graphics graphics = new Graphics (output);
+			graphics.draw (xml);
 		}
 	}
 	//-------------------------------------------------------------------
