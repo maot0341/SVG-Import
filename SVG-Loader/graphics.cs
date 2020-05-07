@@ -139,6 +139,8 @@ namespace SVGLoader
 				double[] vbox = Parser.numbers (box);
 				if (vbox.Length == 4 && !ViewBox.nop (vbox, w_mm, h_mm))
 					tr = new Scale (+w_mm / vbox [2], -h_mm / vbox [3]);
+				else
+					tr = new Scale (+1, -1);
 				//tr = new ViewBox (vbox [0], vbox [1], vbox [2] / w_mm, vbox [3] / h_mm);
 				_transforms.Push (tr);
 			} else {

@@ -31,10 +31,10 @@
     <Reference Include="System" />
     <Reference Include="System.Xml" />
     <Reference Include="CamBam.CAD">
-      <HintPath>..\..\..\bin\CamBam0.9.8\CamBam.CAD.dll</HintPath>
+      <HintPath>..\lib\CamBam.CAD.dll</HintPath>
     </Reference>
     <Reference Include="CamBam.Geom">
-      <HintPath>..\..\..\bin\CamBam0.9.8\CamBam.Geom.dll</HintPath>
+      <HintPath>..\lib\CamBam.Geom.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

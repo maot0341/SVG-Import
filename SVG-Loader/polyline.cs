@@ -22,6 +22,8 @@ namespace SVGLoader
 		protected string _id;
 		protected string _repr;
 		protected Bezier _bezier;
+		protected Point3F _p2; // Kontrollpunkt f. Fortsetzung (s,S)
+		protected bool _cmode;
 
 		//-------------------------------------------------------------------
 		public Pathparser(Graphics parent)
@@ -174,7 +176,10 @@ namespace SVGLoader
 		void draw(char op, double[] param)
 		{
 			int i;
+			bool cmode = _cmode;
 			_parent.trace("path " + op + " ... " + string.Join(" ", param));
+			_cmode = false;
+
 			switch(op) {
 			case 'm':
 				flush();
@@ -257,6 +262,7 @@ namespace SVGLoader
 				}
 				break;
 			case 'C':
+				_cmode = true;
 				for(i = 0; i < param.Length; i += 6) {
 					Point3F[] polygon = new Point3F[4];
 					polygon [0] = point(_cursor.X, _cursor.Y);
@@ -266,10 +272,12 @@ namespace SVGLoader
 					bezier(polygon);
 					_cursor.X = param [i + 4];
 					_cursor.Y = param [i + 5];
+					_p2 = polygon [2];
 					//_poly.Add(line());
 				}
 				break;
 			case 'c':
+				_cmode = true;
 				for(i = 0; i < param.Length; i += 6) {
 					Point3F[] polygon = new Point3F[4];
 					polygon [0] = point(_cursor.X, _cursor.Y);
@@ -279,6 +287,36 @@ namespace SVGLoader
 					bezier(polygon);
 					_cursor.X += param [i + 4];
 					_cursor.Y += param [i + 5];
+					_p2 = polygon [2];
+					//_poly.Add(line());
+				}
+				break;
+			case 's':
+				_cmode = true;
+				for(i = 0; i < param.Length; i += 4) {
+					Point3F[] polygon = new Point3F[4];
+					polygon [0] = point(_cursor.X, _cursor.Y);
+					polygon [1] = cmode ? _p2 : polygon[0];
+					polygon [2] = point(_cursor.X + param [i + 0], _cursor.Y + param [i + 1]);
+					polygon [3] = point(_cursor.X + param [i + 2], _cursor.Y + param [i + 3]);
+					bezier(polygon);
+					_cursor.X += param [i + 2];
+					_cursor.Y += param [i + 3];
+					_p2 = polygon [2];
+				}
+				break;
+			case 'S':
+				_cmode = true;
+				for(i = 0; i < param.Length; i += 4) {
+					Point3F[] polygon = new Point3F[4];
+					polygon [0] = point(_cursor.X, _cursor.Y);
+					polygon [1] = cmode ? _p2 : polygon[0];
+					polygon [2] = point(param [i + 0], param [i + 1]);
+					polygon [3] = point(param [i + 2], param [i + 3]);
+					bezier(polygon);
+					_cursor.X = param [i + 2];
+					_cursor.Y = param [i + 3];
+					_p2 = polygon [2];
 					//_poly.Add(line());
 				}
 				break;
@@ -311,6 +349,10 @@ namespace SVGLoader
 				add(_poly.FirstPoint);
 				_poly.Closed = true;
 				flush();
+				break;
+
+			default:
+				trace ("not implementetd: path segment" + op);
 				break;
 			}
 		}

@@ -242,6 +242,8 @@ namespace SVGLoader
 
 		public static bool nop (double[] v, double w, double h)
 		{
+			if (w == 0 || h == 0)
+				return true;
 			if (v.Length < 4)
 				return true;
 			if (v[0] != 0 || v[1] != 0)

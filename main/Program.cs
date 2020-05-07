@@ -82,7 +82,8 @@ namespace main
 			SVGLoader.Graphics graphics = new SVGLoader.Graphics (stdout);
 			//string path = "/home/jvater/c#-prj/data/test.svg";
 			//string path = "/home/jvater/prj/svg-loader/data/Steg.svg";
-			string path = "/home/jvater/prj/svg-loader/data/test-00.svg";
+			//string path = "/home/jvater/prj/svg-loader/data/test-00.svg";
+			string path = "/home/jvater/prj/svg-loader/data/forum-01/Acanthus.svg";
 			Console.WriteLine ("Hello World!");
 			//CamBam.ThisApplication.MsgBox("SVG: " + path);
 			XmlDocument xml = new XmlDocument (); 
